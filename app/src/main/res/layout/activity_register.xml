@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/register"
+    tools:context="com.example.tushar.menu.RegisterActivity">
+
+    <EditText
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:hint="Name.."
+        android:inputType="textPersonName"
+        android:padding="10dp"
+        android:layout_above="@+id/email"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="22dp" />
+
+    <EditText
+        android:id="@+id/password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:hint="password"
+        android:inputType="textPassword"
+        android:padding="10dp"
+        android:layout_above="@+id/checkBox"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="27dp"
+        android:background="@drawable/shape"
+        android:ems="10"
+        android:hint="email.."
+        android:inputType="textEmailAddress"
+        android:padding="10dp"
+        android:layout_above="@+id/password"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:id="@+id/Register"
+        style="@android:style/Widget.Button.Inset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:background="@drawable/bg2"
+        android:text="Register" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="37dp"
+        android:text="Accept Terms and Conditions"
+        android:layout_above="@+id/Register"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="serif"
+        android:text="REGISTER"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:typeface="sans"
+        android:textColor="#FFFFFF"
+        android:layout_marginStart="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="56dp" />
+
+</RelativeLayout>

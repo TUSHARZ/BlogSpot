@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "429566487178",
+    "firebase_url": "https://blogg-1f830.firebaseio.com",
+    "project_id": "blogg-1f830",
+    "storage_bucket": "blogg-1f830.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:429566487178:android:d6b24eebcfab3568",
+        "android_client_info": {
+          "package_name": "com.example.tushar.menu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "429566487178-stddrtp897lkr5cvn9hf28lked3ltqmk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.tushar.menu",
+            "certificate_hash": "f8f36ea14b0ed3ca6a3b7bdbdaf924552c029d71"
+          }
+        },
+        {
+          "client_id": "429566487178-1bv09kk2dqnj58i1n8s7ua5ooav53mqf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXCv8kTaU4WALV3cEjippH8VRyAwjYTrk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "429566487178-1bv09kk2dqnj58i1n8s7ua5ooav53mqf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
