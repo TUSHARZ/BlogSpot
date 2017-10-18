@@ -54,6 +54,7 @@ public class SetupPage extends AppCompatActivity {
         auths=FirebaseAuth.getInstance();
         pd=new ProgressDialog(this);
         pd.setMessage("SUBMITTING...");
+        pd.setCanceledOnTouchOutside(false);
         profile=(ImageButton)findViewById(R.id.imageButton3);
         datas= FirebaseDatabase.getInstance().getReference().child("Users");
         sref= FirebaseStorage.getInstance().getReference().child("Profiles");
