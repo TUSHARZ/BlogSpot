@@ -196,8 +196,12 @@ private ImageButton image;
 	 * Requests the necessary permissions.
 	 */
 	private void requestPermissions() {
+		String[] permissions = new String[]{
+				Manifest.permission.READ_EXTERNAL_STORAGE,
+				Manifest.permission.WRITE_EXTERNAL_STORAGE
+		};
 		ActivityCompat.requestPermissions(this,
-				new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+				permissions,
 				PERMISSION_REQUEST_CODE);
 	}
 
@@ -205,8 +209,11 @@ private ImageButton image;
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (requestCode == PERMISSION_REQUEST_CODE) {
-			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				//Permissions was granted
+			if (grantResults.length > 0) {
+				// True if read external storage permission was granted, false if not.
+				boolean readPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+				// True if write external storage permission was granted, false if not.
+				boolean writePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
 			} else {
 				//Permission denied
 			}
