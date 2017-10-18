@@ -1,17 +1,16 @@
 package com.example.tushar.menu;
 
-import android.app.DownloadManager;
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Environment;
-import android.support.annotation.NonNull;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.MimeTypeMap;
-import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -33,9 +32,8 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.net.URL;
-
 public class PostActivity extends ActionBarActivity {
+	private final static int PERMISSION_REQUEST_CODE = 777;
 private ImageButton image;
     private Uri galleryuri=null;
 
@@ -57,6 +55,8 @@ private ImageButton image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		if (!checkPermission()) requestPermissions();
+
         setContentView(R.layout.activity_post);
         image=(ImageButton)findViewById(R.id.imageButton);
         auth=FirebaseAuth.getInstance();
@@ -181,4 +181,37 @@ private ImageButton image;
 
 
     }
+
+	/**
+	 * Checks the current state of the permissions needed.
+	 *
+	 * @return true if granted  and false if not.
+	 */
+	private boolean checkPermission() {
+		int permissionState = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+		return permissionState == PackageManager.PERMISSION_GRANTED;
+	}
+
+	/**
+	 * Requests the necessary permissions.
+	 */
+	private void requestPermissions() {
+		ActivityCompat.requestPermissions(this,
+				new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+				PERMISSION_REQUEST_CODE);
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == PERMISSION_REQUEST_CODE) {
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				//Permissions was granted
+			} else {
+				//Permission denied
+			}
+		} else {
+			super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
+	}
 }
