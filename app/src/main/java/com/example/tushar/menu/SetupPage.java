@@ -1,19 +1,19 @@
 package com.example.tushar.menu;
 
-import android.app.Instrumentation;
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
+import android.graphics.Bitmap;
 import android.net.Uri;
-import android.provider.ContactsContract;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +25,7 @@ import com.google.firebase.storage.UploadTask;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
-import java.util.Set;
+import static com.example.tushar.menu.R.id.imageView;
 
 public class SetupPage extends AppCompatActivity {
     private Button finish;
@@ -42,8 +42,7 @@ public class SetupPage extends AppCompatActivity {
     private ProgressDialog pd;
     public String downloaduri=null;
 
-
-
+    private static int CAMERA_REQUEST = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +60,28 @@ public class SetupPage extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent gallery=new Intent();
-                gallery.setAction(Intent.ACTION_GET_CONTENT);
-                gallery.setType("image/*");
-                gallery.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivityForResult(gallery,galleryRequest);
+
+                CharSequence cameraOptions[] = new CharSequence[] {"Camera", "Gallery"};
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(SetupPage.this);
+                builder.setTitle("Choose an option");
+                builder.setItems(cameraOptions, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0){
+                            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                        }
+                        else if (which == 1){
+                            Intent gallery=new Intent();
+                            gallery.setAction(Intent.ACTION_GET_CONTENT);
+                            gallery.setType("image/*");
+                            gallery.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivityForResult(gallery,galleryRequest);
+                        }
+                    }
+                });
+                builder.show();
             }
         });
         finish.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +126,15 @@ public class SetupPage extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUEST && resultCode == Activity.RESULT_OK) {
+            Bitmap photo = (Bitmap) data.getExtras().get("data");
+            Uri camUri = data.getData();
+            CropImage.activity(camUri)
+                    .setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(1,1).setFixAspectRatio(true).setAutoZoomEnabled(false)
+                    .start(this);
+        }
+
         if(requestCode==galleryRequest&&resultCode==RESULT_OK){
             galleryuri=data.getData();
             CropImage.activity(galleryuri)
