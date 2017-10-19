@@ -5,17 +5,46 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="#40E0D0"
+    app:cardElevation="5dp"
     app:cardCornerRadius="5dp">
-
-
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="3dp"
+            android:text="Name"
+            android:textSize="13sp"
+            android:textColor="@android:color/black" />
+      <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:padding="5dp"
+            android:layout_margin="4dp"
+            android:text="Title"
+            android:textSize="14sp"
+            android:textColor="#000000"/>
+
+       <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:layout_margin="4dp"
+            android:text="Description"
+            android:textColor="#616161"
+            android:textAlignment="textEnd"
+            android:textSize="13sp" />
 
         <ImageView
             android:id="@+id/imageView"
@@ -25,58 +54,35 @@
             android:scaleType="centerCrop"
             android:src="@drawable/unnamed" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/shape"
-            android:paddingLeft="5dp"
-            android:paddingTop="8dp"
-            android:text="TextView"
-            android:textSize="30dp"
-            android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/shape"
-            android:fontFamily="sans-serif-condensed"
-            android:paddingLeft="5dp"
-            android:text="Description"
 
-            android:textAlignment="textEnd"
-            android:textSize="20dp" />
-
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:paddingLeft="100dp"
-            android:text="Name.."
-            android:textColor="@android:color/holo_red_dark" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="5dp"
+            android:layout_margin="5dp">
 
 
             <ImageButton
                 android:id="@+id/like_btn"
-                android:layout_width="38dp"
-                android:layout_height="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@mipmap/ic_like" />
 
-                android:paddingTop="2dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/likeup" />
+            <TextView
+                android:id="@+id/txtLikes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1,520 Likes"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="5dp"
+                android:textColor="#757575"
+                android:padding="2dp"/>
 
         </LinearLayout>
 
