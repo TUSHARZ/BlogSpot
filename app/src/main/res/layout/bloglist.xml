@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    app:cardBackgroundColor="#40E0D0"
+    app:cardBackgroundColor="#ffffff"
     app:cardCornerRadius="5dp">
 
 
@@ -30,8 +30,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:background="@drawable/shape"
-            android:paddingLeft="5dp"
+
+            android:paddingLeft="15dp"
+            android:paddingRight="8dp"
             android:paddingTop="8dp"
             android:text="TextView"
             android:textSize="30dp"
@@ -42,9 +43,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/shape"
+
             android:fontFamily="sans-serif-condensed"
-            android:paddingLeft="5dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="8dp"
             android:text="Description"
 
             android:textAlignment="textEnd"
@@ -55,7 +57,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:paddingLeft="100dp"
+            android:paddingLeft="15dp"
             android:text="Name.."
             android:textColor="@android:color/holo_red_dark" />
 
@@ -73,7 +75,8 @@
                 android:layout_marginTop="5dp"
                 android:adjustViewBounds="true"
                 android:background="@android:color/transparent"
-
+                android:paddingLeft="15dp"
+                android:paddingRight="8dp"
                 android:paddingTop="2dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/likeup" />
