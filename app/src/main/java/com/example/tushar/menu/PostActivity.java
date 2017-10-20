@@ -33,21 +33,21 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 public class PostActivity extends ActionBarActivity {
-	private final static int PERMISSION_REQUEST_CODE = 777;
-private ImageButton image;
-    private Uri galleryuri=null;
+    private final static int PERMISSION_REQUEST_CODE = 777;
+    private ImageButton image;
+    private Uri galleryuri = null;
 
-    private EditText title,description;
+    private EditText title, description;
     private Button button;
 
-  //  SetupPage setup;
+    //  SetupPage setup;
 
 
-    private DatabaseReference data,users;
+    private DatabaseReference data, users;
     private ProgressDialog progresss;
     private StorageReference storage;
-    private static final int GALLERY_REQUEST=1;
-    private String name,desc;
+    private static final int GALLERY_REQUEST = 1;
+    private String name, desc;
     public FirebaseAuth auth;
     private FirebaseUser user;
     public FirebaseAuth.AuthStateListener listener;
@@ -55,34 +55,34 @@ private ImageButton image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		if (!checkPermission()) requestPermissions();
+        if (!checkPermission()) requestPermissions();
 
         setContentView(R.layout.activity_post);
-        image=(ImageButton)findViewById(R.id.imageButton);
-        auth=FirebaseAuth.getInstance();
-        user=auth.getCurrentUser();
-        if(auth.getCurrentUser()==null){
-            Toast.makeText(this,"Logged out",Toast.LENGTH_LONG).show();
+        image = (ImageButton) findViewById(R.id.imageButton);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        if (auth.getCurrentUser() == null) {
+            Toast.makeText(this, "Logged out", Toast.LENGTH_LONG).show();
         }
-      //  users=FirebaseDatabase.getInstance().getReference().child("Users");
+        //  users=FirebaseDatabase.getInstance().getReference().child("Users");
 
 
-        title=(EditText)findViewById(R.id.editText3);
+        title = (EditText) findViewById(R.id.editText3);
 
-       users=FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
-  getSupportActionBar().setDisplayShowHomeEnabled(true);
-        description=(EditText)findViewById(R.id.editText2) ;
-        storage=FirebaseStorage.getInstance().getReference();
-        data= FirebaseDatabase.getInstance().getReference().child("Blog");
-        button=(Button)findViewById(R.id.button) ;
-        progresss=new ProgressDialog(this);
+        users = FirebaseDatabase.getInstance().getReference().child("Users").child(user.getUid());
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        description = (EditText) findViewById(R.id.editText2);
+        storage = FirebaseStorage.getInstance().getReference();
+        data = FirebaseDatabase.getInstance().getReference().child("Blog");
+        button = (Button) findViewById(R.id.button);
+        progresss = new ProgressDialog(this);
 
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent gallery=new Intent(Intent.ACTION_GET_CONTENT);
+                Intent gallery = new Intent(Intent.ACTION_GET_CONTENT);
                 gallery.setType("image/*");
-                startActivityForResult(gallery,GALLERY_REQUEST);
+                startActivityForResult(gallery, GALLERY_REQUEST);
             }
         });
         button.setOnClickListener(new View.OnClickListener() {
@@ -91,40 +91,39 @@ private ImageButton image;
                 startPosting();
             }
         });
-       listener=new FirebaseAuth.AuthStateListener() {
+        listener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if((firebaseAuth.getCurrentUser()==null))
-               {
+                if ((firebaseAuth.getCurrentUser() == null)) {
 
-                    Intent loginintent= new Intent(PostActivity.this,LoginActivity.class);
+                    Intent loginintent = new Intent(PostActivity.this, LoginActivity.class);
                     loginintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(loginintent);
-               }
+                }
 
 
-
-    }
+            }
         };
         data.keepSynced(true);
         users.keepSynced(true);
 
-       auth.addAuthStateListener(listener);
+        auth.addAuthStateListener(listener);
     }
-    private void startPosting(){
+
+    private void startPosting() {
         progresss.setMessage("Posting...");
 
-         name=title.getText().toString();
-         desc=description.getText().toString();
-        if(!TextUtils.isEmpty(name)&&!TextUtils.isEmpty(desc)&&galleryuri!=null){
+        name = title.getText().toString();
+        desc = description.getText().toString();
+        if (!TextUtils.isEmpty(name) && !TextUtils.isEmpty(desc) && galleryuri != null) {
             progresss.show();
-            StorageReference sref=storage.child("Blog_image").child(galleryuri.getLastPathSegment());
+            StorageReference sref = storage.child("Blog_image").child(galleryuri.getLastPathSegment());
             sref.putFile(galleryuri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
-                    final Uri downloadurl=taskSnapshot.getDownloadUrl();
+                    final Uri downloadurl = taskSnapshot.getDownloadUrl();
 
-                    final DatabaseReference newPost=data.push();
+                    final DatabaseReference newPost = data.push();
                     users.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
@@ -135,8 +134,8 @@ private ImageButton image;
                             newPost.child("name").setValue(dataSnapshot.child("name").getValue()).addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
-                                    Toast.makeText(getApplicationContext(),"Post Successful",Toast.LENGTH_LONG).show();
-                                    startActivity(new Intent(PostActivity.this,MainActivity.class));
+                                    Toast.makeText(getApplicationContext(), "Post Successful", Toast.LENGTH_LONG).show();
+                                    startActivity(new Intent(PostActivity.this, MainActivity.class));
 
                                 }
                             });
@@ -150,7 +149,7 @@ private ImageButton image;
                     });
 
 
-                   //  newPost.child("Profile").setValue(setup.getDownloaduri());
+                    //  newPost.child("Profile").setValue(setup.getDownloaduri());
                     progresss.dismiss();
                 }
             });
@@ -163,11 +162,12 @@ private ImageButton image;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==GALLERY_REQUEST&&resultCode==RESULT_OK){
-             galleryuri=data.getData();
-        CropImage.activity(galleryuri)
-                .setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(16,9).setFixAspectRatio(true).setAutoZoomEnabled(false).setMaxCropResultSize(1280,720).setRequestedSize(1280,720)
-                .start(this);}
+        if (requestCode == GALLERY_REQUEST && resultCode == RESULT_OK) {
+            galleryuri = data.getData();
+            CropImage.activity(galleryuri)
+                    .setGuidelines(CropImageView.Guidelines.ON).setAspectRatio(16, 9).setFixAspectRatio(true).setAutoZoomEnabled(false).setMaxCropResultSize(1280, 720).setRequestedSize(1280, 720)
+                    .start(this);
+        }
 
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -182,43 +182,43 @@ private ImageButton image;
 
     }
 
-	/**
-	 * Checks the current state of the permissions needed.
-	 *
-	 * @return true if granted  and false if not.
-	 */
-	private boolean checkPermission() {
-		int permissionState = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-		return permissionState == PackageManager.PERMISSION_GRANTED;
-	}
+    /**
+     * Checks the current state of the permissions needed.
+     *
+     * @return true if granted  and false if not.
+     */
+    private boolean checkPermission() {
+        int permissionState = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        return permissionState == PackageManager.PERMISSION_GRANTED;
+    }
 
-	/**
-	 * Requests the necessary permissions.
-	 */
-	private void requestPermissions() {
-		String[] permissions = new String[]{
-				Manifest.permission.READ_EXTERNAL_STORAGE,
-				Manifest.permission.WRITE_EXTERNAL_STORAGE
-		};
-		ActivityCompat.requestPermissions(this,
-				permissions,
-				PERMISSION_REQUEST_CODE);
-	}
+    /**
+     * Requests the necessary permissions.
+     */
+    private void requestPermissions() {
+        String[] permissions = new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        ActivityCompat.requestPermissions(this,
+                permissions,
+                PERMISSION_REQUEST_CODE);
+    }
 
-	@Override
-	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		if (requestCode == PERMISSION_REQUEST_CODE) {
-			if (grantResults.length > 0) {
-				// True if read external storage permission was granted, false if not.
-				boolean readPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
-				// True if write external storage permission was granted, false if not.
-				boolean writePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
-			} else {
-				//Permission denied
-			}
-		} else {
-			super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-		}
-	}
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0) {
+                // True if read external storage permission was granted, false if not.
+                boolean readPermission = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                // True if write external storage permission was granted, false if not.
+                boolean writePermission = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+            } else {
+                //Permission denied
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }
